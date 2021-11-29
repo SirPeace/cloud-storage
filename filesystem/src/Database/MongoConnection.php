@@ -8,16 +8,17 @@ use MongoDB\Database;
 class MongoConnection
 {
     protected Client $client;
-    protected static string $dbName = "filesystem";
+    protected string $dbName;
 
-    public function __construct()
+    public function __construct(string $dbName = "filesystem")
     {
+        $this->dbName = $dbName;
         $this->client = new Client($this->getDsn());
     }
 
     public function getDatabase(): Database
     {
-        return $this->client->{static::$dbName};
+        return $this->client->{$this->dbName};
     }
 
     protected function getDsn(): string
